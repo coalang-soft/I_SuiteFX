@@ -111,22 +111,12 @@ public class SuiteView extends BorderPane {
 		}
 		
 		initMenuBar();
-		SearchField<NodeSearch> sf = initToolBar(view, p);
+		SearchField<?> sf = initToolBar(view, p);
 		
 		List<Menu> menus = p.createMenus(sf.getEngine());
 		for(int i = 0; i < menus.size(); i++){
 			menuBar.getMenus().add(menus.get(i));
 		}
-		
-		final JSearchEngine<String> autoComplete = new JSearchEngine<String>();
-		sf.getEngine().forAllKeys(new Func<String,Object>(){
-			public Object call(String p) {
-				autoComplete.add(p, p);
-				System.out.println(p);
-				return null;
-			}
-		});
-		new AutoComplete().attach(sf, autoComplete);
 	}
 	
 	private void storeState() throws IOException {
@@ -156,14 +146,13 @@ public class SuiteView extends BorderPane {
 	}
 
 	@SuppressWarnings("unchecked")
-	<T extends Node> SearchField<NodeSearch> initToolBar(Node view, SuitePart<T> p) {
+	<T extends Node> SearchField<?> initToolBar(Node view, SuitePart<T> p) {
 		toolBar.getItems().clear();
-		JSearchEngine<NodeSearch> e = new JSearchFX().createSearchEngine(getCenter());
 		
-		AppSearchField searchField;
-		toolBar.getItems().add(searchField = new AppSearchField(e,new Lighting(),true));
+		SearchField<?> searchField = SuiteSearchHelper.createSearchField(view);
+		toolBar.getItems().add(searchField);
 		
-		toolBar.getItems().addAll(p.createTools(e));
+		toolBar.getItems().addAll(p.createTools(searchField.getEngine()));
 		p.updateView((T) view, searchField);
 		
 		new DragDropFX().handle(this);

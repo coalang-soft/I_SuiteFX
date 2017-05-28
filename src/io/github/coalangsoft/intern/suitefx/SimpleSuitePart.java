@@ -21,11 +21,11 @@ public abstract class SimpleSuitePart<T extends Node> implements SuitePart<T> {
 
 	public void restoreState(T view, PartState s) {}
 
-	public List<Menu> createMenus(JSearchEngine<NodeSearch> se) {
+	public List<Menu> createMenus(JSearchEngine<?> se) {
 		return new ArrayList<Menu>();
 	}
 	
-	public List<Node> createTools(JSearchEngine<NodeSearch> se) {
+	public List<Node> createTools(JSearchEngine<?> se) {
 		return new ArrayList<Node>();
 	}
 
