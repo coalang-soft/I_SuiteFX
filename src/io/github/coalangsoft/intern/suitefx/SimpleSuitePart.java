@@ -8,6 +8,7 @@ import io.github.coalangsoft.jsearchfx.ui.AppSearchField;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.coalangsoft.jsearchfx.ui.SearchField;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
 
@@ -15,7 +16,7 @@ public abstract class SimpleSuitePart<T extends Node> implements SuitePart<T> {
 
 	public abstract T createView();
 
-	public void updateView(T view, AppSearchField search) {}
+	public void updateView(T view, SearchField<?> search) {}
 
 	public void storeState(Node view, PartState s) {}
 

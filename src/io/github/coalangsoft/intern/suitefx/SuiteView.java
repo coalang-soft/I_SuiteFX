@@ -39,7 +39,6 @@ public class SuiteView extends BorderPane {
 			
 			public void changed(ObservableValue<? extends Scene> arg0, Scene arg1,
 					final Scene o) {
-				init(0);
 				sceneProperty().removeListener(this);
 				o.windowProperty().addListener(new ChangeListener<Window>() {
 					public void changed(
@@ -47,17 +46,22 @@ public class SuiteView extends BorderPane {
 							Window arg1, Window n) {
 						if(n != null){
 							if(n instanceof Stage){
-								windows.add((Stage) n);
+								stage = (Stage) n;
+								windows.add(stage);
+								stage.setTitle(name);
 							}
 							o.windowProperty().removeListener(this);
 						}
 					}
 				});
+				init(0);
 			}
 		};
 		
 		sceneProperty().addListener(l);
 	}
+	
+	private Stage stage;
 	
 	String name;
 	private int lastIndex = -1;
@@ -116,6 +120,10 @@ public class SuiteView extends BorderPane {
 		List<Menu> menus = p.createMenus(sf.getEngine());
 		for(int i = 0; i < menus.size(); i++){
 			menuBar.getMenus().add(menus.get(i));
+		}
+		
+		if(stage != null){
+			stage.setTitle(name + " - " + p.getName());
 		}
 	}
 	
