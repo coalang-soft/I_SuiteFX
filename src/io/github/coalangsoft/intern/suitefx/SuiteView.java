@@ -1,14 +1,8 @@
 package io.github.coalangsoft.intern.suitefx;
 
-import io.github.coalangsoft.lib.data.Func;
 import io.github.coalangsoft.dragdropfx.DragDropFX;
 import io.github.coalangsoft.intern.suitefx.state.PartState;
 import io.github.coalangsoft.intern.suitefx.state.PartStateImpl;
-import io.github.coalangsoft.jsearch.JSearchEngine;
-import io.github.coalangsoft.jsearchfx.JSearchFX;
-import io.github.coalangsoft.jsearchfx.NodeSearch;
-import io.github.coalangsoft.jsearchfx.ui.AppSearchField;
-import io.github.coalangsoft.jsearchfx.ui.AutoComplete;
 import io.github.coalangsoft.jsearchfx.ui.SearchField;
 
 import java.io.IOException;
@@ -26,7 +20,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ToolBar;
-import javafx.scene.effect.Lighting;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -40,6 +33,9 @@ public class SuiteView extends BorderPane {
 			public void changed(ObservableValue<? extends Scene> arg0, Scene arg1,
 					final Scene o) {
 				sceneProperty().removeListener(this);
+				o.getStylesheets().addAll(stylesheets);
+				stylesheets = o.getStylesheets();
+				
 				o.windowProperty().addListener(new ChangeListener<Window>() {
 					public void changed(
 							ObservableValue<? extends Window> arg0,
@@ -62,6 +58,7 @@ public class SuiteView extends BorderPane {
 	}
 	
 	private Stage stage;
+	private List<String> stylesheets = new ArrayList<String>();
 	
 	String name;
 	private int lastIndex = -1;
@@ -183,6 +180,7 @@ public class SuiteView extends BorderPane {
 		for(int i = 0; i < parts.size(); i++){
 			s.add(parts.get(i));
 		}
+		s.stylesheets = stylesheets;
 		return s;
 	}
 	
