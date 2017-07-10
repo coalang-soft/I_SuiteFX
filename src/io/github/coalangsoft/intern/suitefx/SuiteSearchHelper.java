@@ -34,7 +34,6 @@ public class SuiteSearchHelper {
 		base.forAllKeys(new Func<String,Object>(){
 			public Object call(String p) {
 				autoComplete.add(p, p);
-				System.out.println(p);
 				return null;
 			}
 		});

@@ -18,7 +18,6 @@ public class SuiteMenu extends Menu {
 	public SuiteMenu(final SuiteView view, final List<Stage> windows) {
 		super(view.name);
 		this.view = view;
-		System.out.println(windows);
 		getItems().add(createPerspectiveMenu());
 		
 		MenuItem newWindow = new MenuItem("New window");

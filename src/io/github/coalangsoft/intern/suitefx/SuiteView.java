@@ -15,15 +15,20 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.util.Callback;
 
 public class SuiteView extends BorderPane {
 	
@@ -93,6 +98,7 @@ public class SuiteView extends BorderPane {
 		
 		@SuppressWarnings("unchecked")
 		SuitePart<T> p = (SuitePart<T>) parts.get(index);
+		p = new FinalSuitePart<T>(p);
 		
 		T view;
 		setCenter(lastView = view = p.createView());
@@ -116,7 +122,7 @@ public class SuiteView extends BorderPane {
 		
 		List<Menu> menus = p.createMenus(sf.getEngine());
 		for(int i = 0; i < menus.size(); i++){
-			menuBar.getMenus().add(menus.get(i));
+			menuBar.getMenus().add(setupMenu(menus.get(i)));
 		}
 		
 		if(stage != null){
@@ -124,6 +130,27 @@ public class SuiteView extends BorderPane {
 		}
 	}
 	
+	private Menu setupMenu(final Menu menu) {
+		MenuItem undockMen = new UndockMenu(new Callback<Void, Stage>(){
+
+			public Stage call(Void arg0) {
+				// TODO Auto-generated method stub
+				return stage;
+			}
+			
+		}, stylesheets, menu);
+		menu.getItems().add(new SeparatorMenuItem());
+		menu.getItems().add(undockMen);
+		
+		for(int i = 0; i < menu.getItems().size(); i++){
+			MenuItem mi = menu.getItems().get(i);
+			if(mi instanceof Menu){
+				setupMenu((Menu) mi);
+			}
+		}
+		return menu;
+	}
+
 	private void storeState() throws IOException {
 		PartStateImpl newState = new PartStateImpl();
 		parts.get(lastIndex).storeState(lastView, newState);
