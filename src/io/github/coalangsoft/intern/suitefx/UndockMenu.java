@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 public class UndockMenu extends MenuItem{
@@ -29,7 +30,7 @@ public class UndockMenu extends MenuItem{
 	}
 
 	public Stage undock() {
-		Stage s = new Stage();
+		Stage s = new Stage(StageStyle.UTILITY);
 		s.setScene(new Scene(new UndockedMenuView(toUndock)));
 		return s;
 	}
