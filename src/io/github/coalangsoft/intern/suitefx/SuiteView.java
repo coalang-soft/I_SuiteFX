@@ -3,6 +3,7 @@ package io.github.coalangsoft.intern.suitefx;
 import io.github.coalangsoft.dragdropfx.DragDropFX;
 import io.github.coalangsoft.intern.suitefx.state.PartState;
 import io.github.coalangsoft.intern.suitefx.state.PartStateImpl;
+import io.github.coalangsoft.intern.suitefx.state.SuiteSetup;
 import io.github.coalangsoft.jsearchfx.ui.SearchField;
 
 import java.io.IOException;
@@ -13,10 +14,6 @@ import java.util.Map;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -64,6 +61,7 @@ public class SuiteView extends BorderPane {
 	
 	private Stage stage;
 	private List<String> stylesheets = new ArrayList<String>();
+	SuiteSetup setup;
 	
 	String name;
 	private int lastIndex = -1;
@@ -162,8 +160,9 @@ public class SuiteView extends BorderPane {
 		this(new ArrayList<Stage>(), name);
 	}
 	
-	public SuiteView(List<Stage> windows, String name){
+	private SuiteView(List<Stage> windows, String name){
 		this.name = name;
+		this.setup = new SuiteSetup();
 		
 		this.menuBar = new MenuBar();
 		this.toolBar = new ToolBar();
@@ -196,18 +195,13 @@ public class SuiteView extends BorderPane {
 		menuBar.getMenus().add(new SuiteMenu(this, windows));
 	}
 	
-	public void exit(){
-		if(lastIndex > 0){
-			
-		}
-	}
-	
 	public SuiteView clone(){
 		SuiteView s = new SuiteView(windows, name);
 		for(int i = 0; i < parts.size(); i++){
 			s.add(parts.get(i));
 		}
 		s.stylesheets = stylesheets;
+		s.setup = setup;
 		return s;
 	}
 	

@@ -3,11 +3,14 @@ package io.github.coalangsoft.intern.suitefx;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -47,6 +50,24 @@ public class SuiteMenu extends Menu {
 			}
 		});
 		getItems().add(allToFront);
+		
+		RadioMenuItem darkMode = new RadioMenuItem("Dark theme");
+		darkMode.selectedProperty().addListener(new ChangeListener<Boolean>() {
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				for(int i = 0; i < windows.size(); i++){
+					Scene sc = windows.get(i).getScene();
+					if(sc != null){
+						if(newValue){
+							Styles.dark(sc);
+						}else{
+							Styles.light(sc);
+						}
+					}
+				}
+			}
+		});
+		darkMode.selectedProperty().bindBidirectional(view.setup.darkModeProperty());
+		getItems().add(darkMode);
 	}
 
 	private MenuItem createPerspectiveMenu() {
