@@ -1,6 +1,7 @@
 package io.github.coalangsoft.intern.suitefx;
 
 import io.github.coalangsoft.dragdropfx.DragDropFX;
+import io.github.coalangsoft.intern.fxparts.KeyCombinationHandler;
 import io.github.coalangsoft.intern.suitefx.state.PartState;
 import io.github.coalangsoft.intern.suitefx.state.PartStateImpl;
 import io.github.coalangsoft.intern.suitefx.state.SuiteSetup;
@@ -21,6 +22,9 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.ToolBar;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -116,7 +120,10 @@ public class SuiteView extends BorderPane {
 		}
 		
 		initMenuBar();
-		SearchField<?> sf = initToolBar(view, p);
+		final SearchField<?> sf = initToolBar(view, p);
+		
+		//control-f
+		setOnKeyPressed(KeyCombinationHandler.focus(sf, new KeyCodeCombination(KeyCode.F, KeyCombination.CONTROL_DOWN)));
 		
 		List<Menu> menus = p.createMenus(sf.getEngine());
 		for(int i = 0; i < menus.size(); i++){
