@@ -1,11 +1,14 @@
-package io.github.coalangsoft.intern.suitefx;
+package io.github.coalangsoft.intern.suitefx.part;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.coalangsoft.intern.suitefx.NodePrepareVisitor;
 import io.github.coalangsoft.intern.suitefx.state.PartState;
 import io.github.coalangsoft.jsearch.JSearchEngine;
 import io.github.coalangsoft.jsearchfx.ui.SearchField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
 
@@ -44,10 +47,11 @@ public class FinalSuitePart<T extends Node> implements SuitePart<T> {
 		return res;
 	}
 
-	public List<Node> createTools(JSearchEngine<?> se) {
-		ArrayList<Node> res = new ArrayList<Node>();
+	public ObservableList<Node> createTools(JSearchEngine<?> se) {
+		ObservableList<Node> res = FXCollections.observableArrayList();
 		res.addAll(base.createTools(se));
 		res.addAll(visitor.getTools());
+		
 		return res;
 	}
 

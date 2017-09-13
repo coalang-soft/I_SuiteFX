@@ -19,10 +19,12 @@ public class NodePrepareVisitor extends Visitor{
 
 	private List<Menu> menus;
 	private List<Node> tools;
+	private List<ToolBar> toolBars;
 	
 	{
 		tools = new ArrayList<Node>();
 		menus = new ArrayList<Menu>();
+		toolBars = new ArrayList<ToolBar>();
 		
 		addFunction(Parent.class, new ParentChildrenVisitor(this));
         addFunction(TabPane.class, new TabPaneContentVisitor(this));
@@ -45,6 +47,7 @@ public class NodePrepareVisitor extends Visitor{
                     ((Pane) p).getChildren().remove(tb);
                 }
                 tools.addAll(tb.getItems());
+                toolBars.add(tb);
                 return null;
             }
         });

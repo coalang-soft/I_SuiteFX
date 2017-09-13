@@ -2,6 +2,9 @@ package io.github.coalangsoft.intern.suitefx;
 
 import io.github.coalangsoft.dragdropfx.DragDropFX;
 import io.github.coalangsoft.intern.fxparts.KeyCombinationHandler;
+import io.github.coalangsoft.intern.suitefx.menundock.UndockMenu;
+import io.github.coalangsoft.intern.suitefx.part.FinalSuitePart;
+import io.github.coalangsoft.intern.suitefx.part.SuitePart;
 import io.github.coalangsoft.intern.suitefx.state.PartState;
 import io.github.coalangsoft.intern.suitefx.state.PartStateImpl;
 import io.github.coalangsoft.intern.suitefx.state.SuiteSetup;
@@ -49,6 +52,14 @@ public class SuiteView extends BorderPane {
 						if(n != null){
 							if(n instanceof Stage){
 								stage = (Stage) n;
+								stage.setOnCloseRequest((e) -> {
+									try {
+										storeState();
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+								});
 								windows.add(stage);
 								stage.setTitle(name);
 							}
@@ -78,11 +89,12 @@ public class SuiteView extends BorderPane {
 	private List<Stage> windows;
 	
 	private Map<SuitePart<?>, PartState> states = new HashMap<SuitePart<?>, PartState>();
+	private boolean usesMenu;
 	
 	public <T extends Node> void add(SuitePart<T> p){
 		parts.add(p);
 	}
-
+	
 	public <T extends Node> void init(int index){
 		if(lastIndex == -1){
 			lastIndex = index;
@@ -105,21 +117,9 @@ public class SuiteView extends BorderPane {
 		T view;
 		setCenter(lastView = view = p.createView());
 		
-		PartState s = states.get(p);
-		if(s != null){
-			p.restoreState(view, s);
-		}else{
-			s = new PartStateImpl();
-			try {
-				s.load(index + "");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			p.restoreState(view, s);
+		if(usesMenu){
+			initMenuBar();
 		}
-		
-		initMenuBar();
 		final SearchField<?> sf = initToolBar(view, p);
 		
 		//control-f
@@ -132,6 +132,20 @@ public class SuiteView extends BorderPane {
 		
 		if(stage != null){
 			stage.setTitle(name + " - " + p.getName());
+		}
+		
+		PartState s = states.get(p);
+		if(s != null){
+			p.restoreState(view, s);
+		}else{
+			s = new PartStateImpl();
+			try {
+				s.load(index + "");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			p.restoreState(view, s);
 		}
 	}
 	
@@ -167,6 +181,11 @@ public class SuiteView extends BorderPane {
 		this(new ArrayList<Stage>(), name);
 	}
 	
+	public SuiteView(String name, boolean usesMenu){
+		this(name);
+		this.usesMenu = usesMenu;
+	}
+	
 	private SuiteView(List<Stage> windows, String name){
 		this.name = name;
 		this.setup = new SuiteSetup();
@@ -177,7 +196,9 @@ public class SuiteView extends BorderPane {
 		this.windows = windows;
 		
 		VBox top = new VBox();
-		top.getChildren().add(menuBar);
+		if(usesMenu){
+			top.getChildren().add(menuBar);
+		}
 		top.getChildren().add(toolBar);
 		
 		setTop(top);

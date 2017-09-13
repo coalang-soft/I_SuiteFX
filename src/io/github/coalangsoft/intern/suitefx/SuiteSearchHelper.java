@@ -7,6 +7,7 @@ import io.github.coalangsoft.jsearchfx.ui.CollectionSearchField;
 import io.github.coalangsoft.jsearchfx.ui.SearchField;
 import io.github.coalangsoft.lib.data.Func;
 import javafx.scene.Node;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.effect.Lighting;
 
@@ -22,22 +23,19 @@ public class SuiteSearchHelper {
 				}
 				
 			}, true);
+		}else if(view instanceof ListView){
+			return new CollectionSearchField(((ListView) view).itemsProperty(), new Func<Object, String>() {
+
+				public String call(Object p) {
+					// TODO Auto-generated method stub
+					return p.toString();
+				}
+				
+			}, true);
 		}else{
 			SearchField<?> sf = AppSearchField.make(view, new Lighting(), true);
-			new AutoComplete().attach(sf, autoCompleteEngine(sf.getEngine()));
 			return sf;
 		}
-	}
-	
-	public static JSearchEngine<String> autoCompleteEngine(JSearchEngine<?> base){
-		final JSearchEngine<String> autoComplete = new JSearchEngine<String>();
-		base.forAllKeys(new Func<String,Object>(){
-			public Object call(String p) {
-				autoComplete.add(p, p);
-				return null;
-			}
-		});
-		return autoComplete;
 	}
 
 }

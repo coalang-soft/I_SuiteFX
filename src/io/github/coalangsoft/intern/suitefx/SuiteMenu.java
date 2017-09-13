@@ -3,6 +3,7 @@ package io.github.coalangsoft.intern.suitefx;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.coalangsoft.intern.suitefx.part.SuitePart;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;

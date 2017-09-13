@@ -1,4 +1,4 @@
-package io.github.coalangsoft.intern.suitefx;
+package io.github.coalangsoft.intern.suitefx.menundock;
 
 import javafx.scene.control.MenuItem;
 

@@ -1,4 +1,4 @@
-package io.github.coalangsoft.intern.suitefx;
+package io.github.coalangsoft.intern.suitefx.part;
 
 import io.github.coalangsoft.intern.suitefx.state.PartState;
 import io.github.coalangsoft.jsearch.JSearchEngine;
@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.coalangsoft.jsearchfx.ui.SearchField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
 
 public abstract class SimpleSuitePart<T extends Node> implements SuitePart<T> {
-
-	public abstract T createView();
-
+	
 	public void updateView(T view, SearchField<?> search) {}
 
 	public void storeState(Node view, PartState s) {}
@@ -26,8 +26,8 @@ public abstract class SimpleSuitePart<T extends Node> implements SuitePart<T> {
 		return new ArrayList<Menu>();
 	}
 	
-	public List<Node> createTools(JSearchEngine<?> se) {
-		return new ArrayList<Node>();
+	public ObservableList<Node> createTools(JSearchEngine<?> se) {
+		return FXCollections.observableArrayList();
 	}
 
 	public String getName() {

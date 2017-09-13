@@ -16,6 +16,11 @@ public class Styles {
 		s.getStylesheets().add(using = Styles.class.getResource("res/style/light.css").toExternalForm());
 	}
 	
+	public static void apply(String url, Scene s){
+		reset(s);
+		s.getStylesheets().add(using = url);
+	}
+	
 	private static void reset(Scene s){
 		if(using != null){
 			s.getStylesheets().remove(using);
