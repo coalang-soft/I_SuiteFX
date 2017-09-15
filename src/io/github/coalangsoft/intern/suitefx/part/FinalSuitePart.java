@@ -10,25 +10,35 @@ import io.github.coalangsoft.jsearchfx.ui.SearchField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Menu;
+import javafx.scene.layout.Pane;
 
-public class FinalSuitePart<T extends Node> implements SuitePart<T> {
+public class FinalSuitePart implements SuitePart {
 
-	private SuitePart<T> base;
+	private SuitePart base;
 	private NodePrepareVisitor visitor;
 
-	public FinalSuitePart(SuitePart<T> p) {
+	public FinalSuitePart(SuitePart p) {
 		this.base = p;
 	}
 
-	public T createView() {
+	public Node createView() {
 		this.visitor = new NodePrepareVisitor();
-		T node = base.createView();
+		Node node = base.createView();
 		this.visitor.handle(node);
+		while(node instanceof Pane){
+			List<Node> children = ((Parent) node).getChildrenUnmodifiable();
+			if(children.size() == 1){
+				node = children.get(0);
+			}else{
+				break;
+			}
+		}
 		return node;
 	}
 
-	public void updateView(T view, SearchField<?> search) {
+	public void updateView(Node view, SearchField<?> search) {
 		base.updateView(view, search);
 	}
 
@@ -36,7 +46,7 @@ public class FinalSuitePart<T extends Node> implements SuitePart<T> {
 		base.storeState(view, s);
 	}
 
-	public void restoreState(T view, PartState s) {
+	public void restoreState(Node view, PartState s) {
 		base.restoreState(view, s);
 	}
 

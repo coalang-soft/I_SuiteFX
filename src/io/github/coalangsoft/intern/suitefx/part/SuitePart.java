@@ -10,12 +10,12 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
 
-public interface SuitePart<T extends Node> {
+public interface SuitePart {
 	
-	T createView();
-	void updateView(T view, SearchField<?> search);
+	Node createView();
+	void updateView(Node view, SearchField<?> search);
 	void storeState(Node view, PartState s);
-	void restoreState(T view, PartState s);
+	void restoreState(Node view, PartState s);
 	List<Menu> createMenus(JSearchEngine<?> se);
 	ObservableList<Node> createTools(JSearchEngine<?> se);
 	String getName();

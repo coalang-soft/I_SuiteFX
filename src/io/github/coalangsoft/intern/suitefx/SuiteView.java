@@ -85,17 +85,17 @@ public class SuiteView extends BorderPane {
 	private MenuBar menuBar;
 	private ToolBar toolBar;
 
-	List<SuitePart<?>> parts;
+	List<SuitePart> parts;
 	private List<Stage> windows;
 	
-	private Map<SuitePart<?>, PartState> states = new HashMap<SuitePart<?>, PartState>();
-	private boolean usesMenu;
+	private Map<SuitePart, PartState> states = new HashMap<SuitePart, PartState>();
+	private boolean usesMenu = true;
 	
-	public <T extends Node> void add(SuitePart<T> p){
+	public <T extends Node> void add(SuitePart p){
 		parts.add(p);
 	}
 	
-	public <T extends Node> void init(int index){
+	public void init(int index){
 		if(lastIndex == -1){
 			lastIndex = index;
 		}
@@ -110,11 +110,10 @@ public class SuiteView extends BorderPane {
 			lastIndex = index;
 		}
 		
-		@SuppressWarnings("unchecked")
-		SuitePart<T> p = (SuitePart<T>) parts.get(index);
-		p = new FinalSuitePart<T>(p);
+		SuitePart p = (SuitePart) parts.get(index);
+		p = new FinalSuitePart(p);
 		
-		T view;
+		Node view;
 		setCenter(lastView = view = p.createView());
 		
 		if(usesMenu){
@@ -192,7 +191,7 @@ public class SuiteView extends BorderPane {
 		
 		this.menuBar = new MenuBar();
 		this.toolBar = new ToolBar();
-		this.parts = new ArrayList<SuitePart<?>>();
+		this.parts = new ArrayList<SuitePart>();
 		this.windows = windows;
 		
 		VBox top = new VBox();
@@ -205,14 +204,14 @@ public class SuiteView extends BorderPane {
 	}
 
 	@SuppressWarnings("unchecked")
-	<T extends Node> SearchField<?> initToolBar(Node view, SuitePart<T> p) {
+	<T extends Node> SearchField<?> initToolBar(Node view, SuitePart p) {
 		toolBar.getItems().clear();
 		
 		SearchField<?> searchField = SuiteSearchHelper.createSearchField(view);
 		toolBar.getItems().add(searchField);
 		
 		toolBar.getItems().addAll(p.createTools(searchField.getEngine()));
-		p.updateView((T) view, searchField);
+		p.updateView(view, searchField);
 		
 		new DragDropFX().handle(this);
 		return searchField;

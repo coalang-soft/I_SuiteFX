@@ -14,13 +14,13 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
 
-public abstract class SimpleSuitePart<T extends Node> implements SuitePart<T> {
+public abstract class SimpleSuitePart implements SuitePart {
 	
-	public void updateView(T view, SearchField<?> search) {}
+	public void updateView(Node view, SearchField<?> search) {}
 
 	public void storeState(Node view, PartState s) {}
 
-	public void restoreState(T view, PartState s) {}
+	public void restoreState(Node view, PartState s) {}
 
 	public List<Menu> createMenus(JSearchEngine<?> se) {
 		return new ArrayList<Menu>();

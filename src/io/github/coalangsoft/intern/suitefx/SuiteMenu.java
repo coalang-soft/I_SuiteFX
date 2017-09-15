@@ -74,7 +74,7 @@ public class SuiteMenu extends Menu {
 	private MenuItem createPerspectiveMenu() {
 		Menu m = new Menu("Perspective");
 		for(int i = 0; i < view.parts.size(); i++){
-			SuitePart<?> p = view.parts.get(i);
+			SuitePart p = view.parts.get(i);
 			final int k = i;
 			MenuItem item = new MenuItem(p.getName());
 			item.setOnAction(new EventHandler<ActionEvent>() {
