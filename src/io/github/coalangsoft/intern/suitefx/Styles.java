@@ -46,7 +46,7 @@ public class Styles {
 			styleFile.delete();
 		}
 		
-		styleFile = File.createTempFile("jukeboxcolor", ".css");
+		styleFile = File.createTempFile("suitefxcolor", ".css");
 		Styles.apply(IO.file(styleFile).writeString(String.format(
 				selection + ".root{-fx-base:rgb(%d,%d,%d);}",
 				(int) (c.getRed() * 255),

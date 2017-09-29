@@ -1,7 +1,7 @@
 package io.github.coalangsoft.intern.suitefx;
 
 import io.github.coalangsoft.dragdropfx.DragDropFX;
-import io.github.coalangsoft.intern.fxparts.KeyCombinationHandler;
+import io.github.coalangsoft.intern.fxparts.input.KeyCombinationHandler;
 import io.github.coalangsoft.intern.suitefx.menundock.UndockMenu;
 import io.github.coalangsoft.intern.suitefx.part.FinalSuitePart;
 import io.github.coalangsoft.intern.suitefx.part.SuitePart;
