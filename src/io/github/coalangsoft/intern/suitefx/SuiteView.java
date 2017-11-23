@@ -1,5 +1,6 @@
 package io.github.coalangsoft.intern.suitefx;
 
+import io.github.coalangsoft.dragdropfx.DnDPrepare;
 import io.github.coalangsoft.dragdropfx.DragDropFX;
 import io.github.coalangsoft.intern.fxparts.input.KeyCombinationHandler;
 import io.github.coalangsoft.intern.suitefx.menundock.UndockMenu;
@@ -191,6 +192,7 @@ public class SuiteView extends BorderPane {
 		
 		this.menuBar = new MenuBar();
 		this.toolBar = new ToolBar();
+		DnDPrepare.toolBar(this.toolBar);
 		this.parts = new ArrayList<SuitePart>();
 		this.windows = windows;
 		
